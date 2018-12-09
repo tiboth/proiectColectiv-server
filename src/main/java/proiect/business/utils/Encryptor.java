@@ -1,5 +1,7 @@
 package proiect.business.utils;
 
+import org.apache.tomcat.util.codec.binary.Base64;
+
 import javax.crypto.Cipher;
 import javax.crypto.spec.SecretKeySpec;
 import java.security.Key;
@@ -19,7 +21,7 @@ public class Encryptor {
             // encrypt the text
             cipher.init(Cipher.ENCRYPT_MODE, aesKey);
             byte[] encrypted = cipher.doFinal(toEncrypt.getBytes());
-            encryptedString = new String(encrypted);
+            encryptedString = Base64.encodeBase64String(encrypted);
         }
         catch(Exception e)
         {
@@ -27,4 +29,5 @@ public class Encryptor {
         }
         return encryptedString;
     }
+
 }

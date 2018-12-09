@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import proiect.business.control.UserService;
+import proiect.business.exception.BusinessException;
 import proiect.persistence.entity.User;
 
 @Controller
@@ -26,6 +27,17 @@ public class UserResource {
     public void addUser(@RequestBody User user){
         log.info("add user: user={}", user);
         userService.addUser(user);
+    }
+
+    @PostMapping(path="loginUser")
+    @ResponseStatus(HttpStatus.OK)
+    public void login(@RequestBody User user) throws BusinessException{
+        log.info("login request: user={}", user);
+        if (userService.login(user.getUsername(), user.getPassword())) {
+            log.info("login successful: user={}", user);
+        } else {
+            log.info("login unsuccessful: user={}", user);
+        }
     }
 
 }
