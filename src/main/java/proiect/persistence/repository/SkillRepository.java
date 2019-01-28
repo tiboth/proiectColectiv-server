@@ -7,12 +7,10 @@ import proiect.persistence.entity.User;
 import java.util.List;
 import java.util.Optional;
 
-public interface UserRepository extends CrudRepository<User, Long> {
+public interface SkillRepository extends CrudRepository<Skill,Long> {
 
-    public User findById(String id);
+    public Skill findAllById(Long id);
 
-    Optional<User> findUserByUsername(String username);
-
-    public List<User> findAll();
+    public List<Skill> findAll();
 
 }

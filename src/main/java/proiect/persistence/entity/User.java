@@ -6,7 +6,9 @@ import lombok.*;
 
 import javax.persistence.*;
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 @Getter
@@ -23,6 +25,10 @@ public class User implements Serializable {
     @JsonIgnore
     private Set<User> users = new HashSet<>();
 
+    @OneToMany
+    @JsonIgnore
+    private List<Skill> skills = new ArrayList<>();
+
     @Column(unique = true, nullable = false)
     private String username;
     @Column(unique = true, nullable = false)
@@ -30,11 +36,24 @@ public class User implements Serializable {
     @Column(nullable = false)
     private String password;
 
-    public User(String userName, String email, String password) {
-        this.username = userName;
+//    public User(String username, String email, String password, int salary) {
+//        this.username = username;
+//        this.email = email;
+//        this.password = password;
+//        this.salary = salary;
+//    }
+
+    public User(List<Skill> skills, String username, String email, String password, int salary) {
+        this.skills = skills;
+        this.username = username;
         this.email = email;
         this.password = password;
+        this.salary = salary;
     }
+
+    @Column(nullable = false)
+    private int salary;
+
 
     public void addUser(User user) {
         users.add(user);
@@ -44,11 +63,11 @@ public class User implements Serializable {
     public String toString() {
         return "User{" +
                 "id=" + id +
-                ", users=" + users +
-                ", userName='" + username + '\'' +
+                ", skills=" + skills +
+                ", username='" + username + '\'' +
                 ", email='" + email + '\'' +
                 ", password='" + password + '\'' +
+                ", salary=" + salary +
                 '}';
-
     }
 }

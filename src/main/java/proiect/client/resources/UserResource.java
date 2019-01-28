@@ -5,15 +5,18 @@ import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.ResponseStatus;
+import org.springframework.web.bind.annotation.*;
 import proiect.business.control.UserService;
 import proiect.business.exception.BusinessException;
+import proiect.persistence.entity.Skill;
 import proiect.persistence.entity.User;
+import proiect.persistence.repository.UserRepository;
 
-@Controller
+import java.util.ArrayList;
+import java.util.List;
+
+@RestController
+@CrossOrigin
 @RequestMapping("user")
 public class UserResource {
     private static final Logger log = LogManager.getLogger(UserResource.class);
@@ -21,6 +24,9 @@ public class UserResource {
 
     @Autowired
     UserService userService;
+
+    @Autowired
+    UserRepository userRepository;
 
     @PostMapping(path="/addUser")
     @ResponseStatus(HttpStatus.OK)
@@ -38,6 +44,27 @@ public class UserResource {
         } else {
             log.info("login unsuccessful: user={}", user);
         }
+    }
+
+    @RequestMapping(path = "/findById", method = RequestMethod.GET)
+    public User findById(@RequestParam(value = "id", defaultValue = "0") String id) {
+        return userRepository.findById(Long.valueOf(id)).get();
+    }
+
+    @RequestMapping(path = "/findAll", method = RequestMethod.GET)
+    public List<User> findall() {
+        return userRepository.findAll();
+    }
+
+    @RequestMapping(path = "/findSkills", method = RequestMethod.GET)
+    public List<Skill> findSkills(@RequestParam(value = "id", defaultValue = "0") String id) {
+        User user;
+
+        if (userRepository.existsById(Long.valueOf(id))) {
+            user = findById(id);
+            return user.getSkills();
+        }
+            return null;
     }
 
 }
