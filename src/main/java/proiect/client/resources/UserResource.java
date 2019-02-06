@@ -45,10 +45,15 @@ public class UserResource {
             log.info("login unsuccessful: user={}", user);
         }
     }
+    @PostMapping(path="/updateUser")
+    @ResponseStatus(HttpStatus.OK)
+    public User updateUser(@RequestBody User user){
+        return userRepository.save(user);
+    }
 
-    @RequestMapping(path = "/findById", method = RequestMethod.GET)
-    public User findById(@RequestParam(value = "id", defaultValue = "0") String id) {
-        return userRepository.findById(Long.valueOf(id)).get();
+    @RequestMapping(path = "/findById/{id}", method = RequestMethod.GET)
+    public User findById( @PathVariable Long id) {
+        return this.userRepository.findById(id).get();
     }
 
     @RequestMapping(path = "/findAll", method = RequestMethod.GET)
@@ -57,7 +62,7 @@ public class UserResource {
     }
 
     @RequestMapping(path = "/findSkills", method = RequestMethod.GET)
-    public List<Skill> findSkills(@RequestParam(value = "id", defaultValue = "0") String id) {
+    public List<Skill> findSkills(@RequestParam(value = "id", defaultValue = "0") Long id) {
         User user;
 
         if (userRepository.existsById(Long.valueOf(id))) {
