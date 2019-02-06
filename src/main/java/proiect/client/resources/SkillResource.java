@@ -36,6 +36,4 @@ public class SkillResource {
     public List<Skill> findall() {
         return skillRepository.findAll();
     }
-
-
 }

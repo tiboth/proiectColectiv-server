@@ -14,6 +14,7 @@ import proiect.persistence.repository.UserRepository;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 @RestController
 @CrossOrigin
@@ -37,13 +38,15 @@ public class UserResource {
 
     @PostMapping(path="loginUser")
     @ResponseStatus(HttpStatus.OK)
-    public void login(@RequestBody User user) throws BusinessException{
+    public Long login(@RequestBody User user) throws BusinessException{
         log.info("login request: user={}", user);
-        if (userService.login(user.getUsername(), user.getPassword())) {
+        Optional<User> userLogin = Optional.of(userService.login(user.getUsername(), user.getPassword()));
+        if (userLogin.isPresent()) {
             log.info("login successful: user={}", user);
         } else {
             log.info("login unsuccessful: user={}", user);
         }
+        return userLogin.get().getId();
     }
 
     @RequestMapping(path = "/findById", method = RequestMethod.GET)
@@ -60,11 +63,13 @@ public class UserResource {
     public List<Skill> findSkills(@RequestParam(value = "id", defaultValue = "0") String id) {
         User user;
 
-        if (userRepository.existsById(Long.valueOf(id))) {
-            user = findById(id);
-            return user.getSkills();
-        }
-            return null;
+        user = findById(id);
+        return user.getSkills();
+//        if (userRepository.existsById(Long.valueOf(id))) {
+//            user = findById(id);
+//            return user.getSkills();
+//        }
+//            return null;
     }
 
 }

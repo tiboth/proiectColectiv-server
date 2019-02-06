@@ -24,7 +24,7 @@ public class UserService {
         userRepository.save(user);
     }
 
-    public boolean login(String username, String password) throws BusinessException {
+    public User login(String username, String password) throws BusinessException {
         Optional<User> user = userRepository.findUserByUsername(username);
 
         User userFound = user.orElseThrow(() -> new BusinessException(BusinessExceptionCode.CAN_NOT_GET_USER));
@@ -33,7 +33,7 @@ public class UserService {
             throw new BusinessException(BusinessExceptionCode.PASSWORD_NOT_VALID);
         }
 
-        return true;
+        return userFound;
     }
 
 }
