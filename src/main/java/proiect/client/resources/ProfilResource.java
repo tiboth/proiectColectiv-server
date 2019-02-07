@@ -10,6 +10,8 @@ import org.springframework.web.bind.annotation.*;
 import proiect.business.control.ProfilService;
 import proiect.persistence.entity.Profil;
 
+import java.util.List;
+
 @Controller
 @RequestMapping("profil")
 public class ProfilResource {
@@ -31,5 +33,11 @@ public class ProfilResource {
     public  @ResponseBody
     Profil get(@RequestParam Long profilId) {
         return profilService.getUserProfile(profilId);
+    }
+
+    @GetMapping(path="/profils")
+    @ResponseStatus(HttpStatus.OK)
+    public  @ResponseBody List<Profil> get() {
+        return profilService.getUserProfiles();
     }
 }

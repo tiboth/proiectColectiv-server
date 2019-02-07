@@ -8,4 +8,6 @@ import java.util.Optional;
 public interface ProfilRepository extends CrudRepository<Profil, Long> {
 
     Optional<Profil> findProfilById(Long id);
+
+    Iterable<Profil> findAll();
 }
