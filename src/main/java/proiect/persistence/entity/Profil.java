@@ -31,6 +31,15 @@ public class Profil implements Serializable{
     private String region;
 
     @Column(nullable = false)
+    private String mobileNumber;
+
+    @Column(nullable = false)
+    private String email;
+
+    @Column(nullable = false)
+    private int age;
+
+    @Column(nullable = false)
     private boolean freigegeben;
 
     public Profil(String region, boolean freigegeben) {
