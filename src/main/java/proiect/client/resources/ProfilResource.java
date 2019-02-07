@@ -9,6 +9,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 import proiect.business.control.ProfilService;
 import proiect.persistence.entity.Profil;
+import proiect.persistence.repository.ProfilRepository;
 
 import java.util.List;
 
@@ -19,6 +20,9 @@ public class ProfilResource {
 
     @Autowired
     private ProfilService profilService ;
+
+    @Autowired
+    private ProfilRepository profilRepository;
 
 
     @PostMapping(path="/addProfil")
@@ -40,4 +44,13 @@ public class ProfilResource {
     public  @ResponseBody List<Profil> get() {
         return profilService.getUserProfiles();
     }
+
+    @PostMapping(path="/updateProfil")
+    @ResponseStatus(HttpStatus.OK)
+    public void updateProfil(@RequestBody Profil profil){
+         profilRepository.save(profil);
+    }
+
+
+
 }
