@@ -6,9 +6,11 @@ import org.springframework.stereotype.Service;
 import proiect.business.exception.BusinessException;
 import proiect.business.exception.BusinessExceptionCode;
 import proiect.business.utils.Encryptor;
+import proiect.persistence.entity.Skill;
 import proiect.persistence.entity.User;
 import proiect.persistence.repository.UserRepository;
 
+import java.util.List;
 import java.util.Optional;
 
 @Service
@@ -34,6 +36,21 @@ public class UserService {
         }
 
         return userFound;
+    }
+
+    public List<User> getUsers(){
+        return userRepository.findAll();
+    }
+
+    public User getUserById(Long id){
+        return userRepository.findById(id).get();
+    }
+
+    public List<Skill> getuserSkills(Long id){
+        User user;
+
+        user = getUserById(id);
+        return user.getSkills();
     }
 
 }

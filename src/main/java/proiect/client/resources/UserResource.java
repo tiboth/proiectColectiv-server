@@ -65,11 +65,6 @@ public class UserResource {
 
         user = findById(id);
         return user.getSkills();
-//        if (userRepository.existsById(Long.valueOf(id))) {
-//            user = findById(id);
-//            return user.getSkills();
-//        }
-//            return null;
     }
 
 }
